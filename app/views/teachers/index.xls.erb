@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">id</Data></Cell>
+        <Cell><Data ss:Type="String">last_name</Data></Cell>
+        <Cell><Data ss:Type="String">first_name</Data></Cell>
+        <Cell><Data ss:Type="String">email</Data></Cell>
+        <Cell><Data ss:Type="String">apprai</Data></Cell>
+        <Cell><Data ss:Type="String">apprai_email</Data></Cell>
+        <Cell><Data ss:Type="String">grade</Data></Cell>
+        <Cell><Data ss:Type="String">role</Data></Cell>
+        <Cell><Data ss:Type="String">departmental</Data></Cell>
+        <Cell><Data ss:Type="String">depart_class</Data></Cell>                 
+      </Row>
+    <% @teachers.each do |teacher| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= teacher.id %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= teacher.last_name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= teacher.first_name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= teacher.email %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= teacher.apprai %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= teacher.apprai_email %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= teacher.grade %></Data></Cell>       
+        <Cell><Data ss:Type="String"><%= teacher.role %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= teacher.departmental %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= teacher.depart_class %></Data></Cell>       
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

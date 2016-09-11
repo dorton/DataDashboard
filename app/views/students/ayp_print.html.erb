@@ -1,0 +1,70 @@
+<% if current_teacher.campus == @teacher.campus %>
+
+<h2 align = "center"><%= @teacher.last_name %> Students In Danger of Failing </h2>
+<div class="row">
+ <div class="span6"> 
+   <h3>EVAAS Math Danger - <%= @ayp_math.count %></h3>         
+   <table class="table table-hover table-condensed">     
+     <tr>
+       <th></th>
+       <th>Observations</th>
+       <th>Math Stanford</th>
+       <th>Math STAAR</th>
+     </tr>
+     <% @ayp_math.each do |student|%>  
+     <tr>        
+       <td><%= image_tag(student.avatar_url) %> <br/><h4><%= student.last_name %>, <%= student.first_name %></h4></td>
+       <td>
+         <table>
+           <tr>
+             <td colspan = "2">Total - <%= student.observations.count%></td>
+           </tr>
+           <tr> 
+             <td><%= image_tag("smile.jpg", :size => "40x40") %></td>
+             <td><%= image_tag("sad.png", :size => "25x25") %><br/></td> 
+           </tr>
+           <tr> 
+             <td align = "center"><%= Observation.where("student_id =? AND off_task = ?", student, true).count %></td>
+             <td align = "center"><%= Observation.where("student_id =? AND off_task = ?", student, false).count %></td> 
+           </tr>
+         </table></td>
+         <td align = "center"><%= student.math_nce %></td>
+         <td align = "center"><%= student.math_staar_scale %></td>
+       </tr>
+       <% end %>
+     </table></div>
+     <div class="span6">
+      <h3>EVAAS Reading Danger - <%= @ayp_reading.count %></h3>          
+      <table class="table table-hover table-condensed">
+        <tr>
+          <th></th>
+          <th>Observations</th> 
+          <th>Reading Stanford</th>
+          <th>Reading STAAR</th>
+        </tr>
+        <% @ayp_reading.each do |student|%>
+        <tr>        
+          <td><%= image_tag(student.avatar_url) %> <br/><h4><%= student.last_name %>, <%= student.first_name %></h4></td>
+          <td><table>
+            <tr>
+              <td colspan = "2">Total - <%= student.observations.count%></td>
+            </tr>
+            <tr> 
+              <td><%= image_tag("smile.jpg", :size => "40x40") %></td>
+              <td><%= image_tag("sad.png", :size => "25x25") %><br/></td> 
+            </tr>
+            <tr> 
+              <td align = "center"><%= Observation.where("student_id =? AND off_task = ?", student, true).count %></td>
+              <td align = "center"><%= Observation.where("student_id =? AND off_task = ?", student, false).count %></td>
+            </tr>
+          </table>
+          <td align = "center"><%= student.reading_nce %></td>
+          <td align = "center"><%= student.reading_staar_scale %></td>
+        </td>
+      </tr>
+      <% end %>
+    </table></div></div>
+
+    <% else %>
+<h4>What are you doing Dave?  You are not authorized to view this.</h4>
+<% end %>

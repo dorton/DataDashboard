@@ -1,0 +1,19 @@
+<% if teachers.present? %>
+  <div class="span4">
+   <table class="table table-hover table-condensed">
+    <th colspan = "4">
+
+      <h4>Grade <%= grade %></h4></th>
+
+    <tr>
+      <% teachers.each do |teacher| %>
+      <td><%= link_to teacher.last_name, teacher_students_path(teacher) %></td>
+     <!--  <td><%= link_to "AYP", ayp_teacher_students_path(teacher), :class=>"btn btn-danger" %></td>
+      <td><%= link_to "Bubble", bubble_teacher_students_path(teacher), :class=>"btn btn-warning" %></td> -->
+      <td><%= link_to "Walk", teacher_learningwalks_path(teacher), :class=>"btn btn-success", :target => "_blank" %></td>    
+    </tr>
+    <% end %>
+  </table>
+  </div>
+
+  <% end %>

@@ -1,0 +1,58 @@
+<% if current_teacher.campus == @teacher.campus %>
+
+<div class="span8">
+
+
+<% if Learningwalk.where("teacher_id == ?", @teacher).empty? %>
+<h1><%= "#{@teacher.first_name} #{@teacher.last_name}" %> has not been observed. </h1>
+
+<% else %>
+
+<h1><%= Learningwalk.where("teacher_id == ?", @teacher).count %> Learning Walks for <%= "#{@teacher.first_name} #{@teacher.last_name}" %></h1>
+</div>
+<div class="span8">
+<table class="table table-hover table-condensed table-bordered">
+  <tr>
+    <th>Date</th>
+    <th>Time</th>    
+    <th>Observer</th>
+    <th>Subject</th>
+    <th></th>
+    <% if current_teacher.admin? %>
+    <th></th>
+    <th></th>
+    <% end %>
+
+
+
+
+  </tr>
+
+<% @teacher.learningwalks.each do |learningwalk| %>
+  <tr>
+    <td><%= learningwalk.created_at.strftime("%m/%d/%Y") %></td>
+    <td><%= learningwalk.start_time.strftime("%I:%M %p") %> - <%= learningwalk.created_at.strftime("%I:%M %p") %></td>
+    <td><%= learningwalk.observer %></td>
+    <td><%= learningwalk.subject %></td>
+    <td><%= link_to "Print", teacher_learningwalk_path(@teacher, learningwalk), :target=>"_blank" %></td>
+    <% if current_teacher.admin? %>
+    <td><%= link_to "Email to #{@teacher.last_name}", {:action => "mailer", :learningwalk_id => learningwalk, :teacher_id => @teacher, :admin_id => current_teacher}, :confirm => "Are you sure you want to send this to #{@teacher.first_name} #{@teacher.last_name}?", :class=>"btn btn-success btn-small" %></td>
+    <td><%= link_to "Edit", edit_teacher_learningwalk_path(@teacher, learningwalk) %></td>
+    <% end %>
+
+   
+    
+    
+  </tr>
+<% end %>
+</table>
+<% end %>
+<br />
+ <% if current_teacher.admin? %>
+<%= link_to 'New Learning Walk', new_teacher_learningwalk_path, :class=>"btn btn-primary" %>
+ <% end %>
+</div>
+
+<% else %>
+<h4>What are you doing Dave?  You are not authorized to view this.</h4>
+<% end %>

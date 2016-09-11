@@ -1,0 +1,13 @@
+<%= simple_form_for(@lessonplan) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :lesson_plan %>
+    <%= f.input :name %>
+    <%= f.input :campus %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

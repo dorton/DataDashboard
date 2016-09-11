@@ -1,0 +1,9 @@
+<% if current_teacher.campus == @teacher.campus %>
+<h2>Learning Walk for <%= @teacher.last_name %></h2>
+
+<%= render 'form' %>
+
+<%= link_to 'Back', :back %>
+<% else %>
+<h4>What are you doing Dave?  You are not authorized to view this.</h4>
+<% end %>

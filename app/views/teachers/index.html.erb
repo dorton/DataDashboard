@@ -1,0 +1,52 @@
+<div class="span6">
+<% if current_teacher.admin? %>
+<p>
+    Download:
+    <%= link_to "Excel", teachers_path(format: "xls") %> 
+<!--     <%= link_to "CSV", teachers_path(format: "csv") %>  -->
+
+</p>
+<h1>Select A Teacher Below</h1>
+
+<table class="table table-hover table-condensed table-bordered">
+  <tr>
+    <th>ID</th>
+    <th>Grade</th>
+    <th>Teacher</th>
+    <th>Email</th>
+    <th>Appraiser</th>
+    <th>Role</th>
+    <th></th>
+  </tr>
+
+<% @teachers.each do |teacher| %>
+  <tr>
+    <td><%= teacher.id %></td>
+    <td><%= teacher.grade %></td>
+    <td><%= link_to "#{teacher.first_name} #{teacher.last_name}", teacher_learningwalks_path(teacher) %></td>
+    <td><%= mail_to teacher.email %></td>
+    <td><%= teacher.apprai %></td>
+    <td><%= teacher.role %></td>
+    <td><%= link_to "Edit", edit_teacher_path(teacher) %></td>
+
+
+
+  </tr>
+<% end %>
+</table>
+
+<br />
+<!-- 
+<%= link_to 'New Teacher', new_teacher_path %>
+<br> -->
+<br>
+<%= form_tag import_teachers_path, multipart: true do %>
+  <%= file_field_tag :file %>
+  <%= submit_tag "Import Teachers" %>
+<% end %>
+
+<% else %>
+
+<h1>You are not authorized to view this page.</h1>
+<% end %>
+</div>

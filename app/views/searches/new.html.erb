@@ -1,0 +1,9 @@
+<%= form_for @search do |f| %>
+  <div class="field" align = "center">
+  	<h2>Enter Student Name</h2>
+    <%= f.text_field :keywords, :class => "input-xxlarge search-query" %>
+    <%= f.submit "Search" %>
+  </div>
+
+  
+<% end %>

@@ -1,0 +1,88 @@
+
+<% if current_teacher.admin? %>
+
+  <% @grades.in_groups_of(3, false).each do |grades| %>
+      <div class="row-fluid">
+        <% grades.each do |grade| %>
+          <%= render partial: "home/section", locals: {grade: grade, teachers: @all_teachers.select{|t| t.grade == grade.to_s} } %>  
+        <% end %>
+      </div>
+
+  <% end %>
+
+
+
+ <div class="span12">
+<h1>Most Recent Student Observations</h1>
+<table class="table table-hover table-condensed">
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Teacher</th>
+      <th>Grade</th>
+      <th>Observation Date</th>
+      <th>Observer</th>
+      <th>On Task</th>
+      <th>Notes</th>
+    </tr>
+
+    <% Observation.where("campus = ?", current_teacher.campus).last(5).reverse.each do |observation|%>
+
+    <tr>
+      <td><%= link_to image_tag(observation.avatar_url), teacher_student_path(observation.student.teacher_id, observation.student_id)  %></td>
+      <td><%= "#{observation.student.first_name} #{observation.student.last_name}"%></td>
+      <td><%= "#{observation.student.teacher.last_name}" %></td>
+      <td><%= "#{observation.student.teacher.grade} "%></td>
+      <td><%= observation.created_at %></td>
+      <td><%= observation.observer %></td>
+      <td><% if observation.off_task == true %>
+       <%= image_tag("smile.jpg", :size => "40x40") %>
+       <% elsif observation.off_task == false %>
+       <%= image_tag("sad.png", :size => "25x25") %>
+       <% else %>
+       <% end %>
+     </td>
+     <td><%= observation.notes %></td>
+     <!--  -->
+     
+   </tr>
+
+   <% end %>
+ </table>
+</div>
+<br>
+ <div class="span12">
+<h1>Most Recent Learning Walks</h1>
+<table class="table table-hover table-condensed">
+    <tr>
+      <th>Date</th>      
+      <th>Teacher</th>
+      <th>Admin</th>
+
+      <th>Subject</th>
+      <th>Lesson Highlights</th>
+      <th>Growth Opps</th>
+    </tr>
+
+    <% Learningwalk.where("campus = ?", current_teacher.campus).last(10).reverse.each do |learningwalk|%>
+
+    <tr>
+      <td><%= link_to learningwalk.start_time.strftime("%m/%e/%y at %l:%M %P"), teacher_learningwalk_path(learningwalk.teacher_id, learningwalk), :target => "_blank" %></td>      
+      <td><%= link_to learningwalk.teacher.full_name, teacher_learningwalks_path(learningwalk.teacher_id) %></td>
+      <td><%= learningwalk.observer %></td>
+
+      <td><%= learningwalk.subject %></td>
+      <td><%= learningwalk.highlights.gsub(/\n/, '<br/>').html_safe %></td>
+      <td><%= learningwalk.growths.gsub(/\n/, '<br/>').html_safe %></td>
+
+     <!--  -->
+     
+   </tr>
+
+   <% end %>
+ </table>
+</div>
+<br>
+<% else %>
+<h1>What are you doing Dave?? You are not authorized to view this page.</h1>
+<% end %>

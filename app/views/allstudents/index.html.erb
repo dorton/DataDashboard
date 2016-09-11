@@ -1,0 +1,89 @@
+<% if current_teacher.admin? %>
+<h1>Target Students</h1>
+
+<table border="1">
+  <tr>
+    <th>Teacher</th>
+    <th>Grade</th>
+    <th>Name</th>
+
+    <th>Math Bubble</th>
+    <th>Missed Math AYP</th>
+    <th>Reading Bubble</th>
+    <th>Missed Reading AYP</th>
+    <th>Math Percentile</th>
+    <th>Reading Percentile</th>
+    <th>Math STAAR</th>
+    <th>Reading STAAR</th>
+    <th>Special Ed</th>
+</tr>
+
+<% Student.where("campus = ?", current_teacher.campus).each do |student| %>
+<tr>
+    <td><%= student.teacher.last_name %></td>
+    <td><%= student.teacher.grade %></td>
+    <td><%= link_to student.full_name, [student.teacher, student] %></td>
+
+    
+    <td><% if student.bubble_math == true %>
+        <%= image_tag("check_mark.jpg", :size => "16x10") %>
+        <% else %>
+        <% end %></td>
+        
+        <td><% if student.met_math_ayp == false %>
+            <%= image_tag("check_mark.jpg", :size => "16x10") %>
+            <% else %>
+            <% end %></td> 
+
+
+            <td><% if student.bubble_reading == true %>
+                <%= image_tag("check_mark.jpg", :size => "16x10") %>
+                <% else %>
+                <% end %></td>
+                <td><% if student.met_reading_ayp == false %>
+                    <%= image_tag("check_mark.jpg", :size => "16x10") %>
+                    <% else %>
+                    <% end %></td>  
+                    <td><%= student.math_nce %></td>
+                    <td><%= student.reading_nce %></td>
+                    <% if student.met_math_standard == false %>
+                    <td><h5 class="text-error"><%= student.math_staar_scale %></h5></td>
+                    <% elsif student.met_math_standard == true %>
+                    <td><h5 class="text-success"><%= student.math_staar_scale %></h5></td>
+                    <% elsif student.met_math_standard == nil && student.math_staar_scale != nil %>
+                    <td><h5 class="text-warning"><%= student.math_staar_scale %> (raw score) </h5></td>
+                    <% else %>
+                    <td></td>
+                    <% end %>
+                    <% if student.met_reading_standard == false %>
+                    <td><h5 class="text-error"><%= student.reading_staar_scale %></h5></td>
+                    <% elsif student.met_reading_standard == true %>
+                    <td><h5 class="text-success"><%= student.reading_staar_scale %></h5></td>
+                    <% elsif student.met_reading_standard == nil && student.reading_staar_scale != nil %>
+                    <td><h5 class="text-warning"><%= student.reading_staar_scale %> (raw score) </h5></td>
+                    <% else %>
+                    <td></td>
+                    <% end %>
+                
+        <td><% if student.sped == true %>
+        <%= image_tag("check_mark.jpg", :size => "16x10") %>
+        <% else %>
+        <% end %>
+        </td>
+        </tr>
+        <% end %>
+
+            </table>
+            <br>
+            <h2>Import Students</h2>
+
+            <%= form_tag import_teacher_students_path(Student), multipart: true do %>
+            <%= file_field_tag :file %>
+            <%= submit_tag "Import" %>
+            <% end %>
+
+    <% else %>
+
+<h1>You are not authorized to view this page.</h1>
+<% end %>
+

@@ -1,0 +1,46 @@
+<% d = Date.today
+	today = Date.today
+  	beg = today.beginning_of_month
+  	last = beg - 1
+    beg_of_last_month = last.beginning_of_month
+  	lastmonth = last.strftime("%B") %>
+
+<%  math = Learningwalk.where("created_at <= ? AND subject = ? AND created_at >= ?", last, "Math", beg_of_last_month).count
+	reading = Learningwalk.where("created_at <= ? AND subject = ? AND created_at >= ?", last, "Reading", beg_of_last_month).count 
+	science = Learningwalk.where("created_at <= ? AND subject = ? AND created_at >= ?", last, "Science", beg_of_last_month).count
+	social = Learningwalk.where("created_at <= ? AND subject = ? AND created_at >= ?", last, "Social Studies", beg_of_last_month).count
+  other = Learningwalk.where("created_at <= ? AND subject = ? AND created_at >= ?", last, "Other", beg_of_last_month).count
+	none = Learningwalk.where("created_at <= ? AND subject = ? AND created_at >= ?", last, "", beg_of_last_month).count %>
+
+<% observation = Learningwalk.where("created_at <= ? AND created_at >= ?", last, beg_of_last_month) %>
+
+
+<% observation_group = observation.group_by {|t| t.observer } %>
+
+
+
+<h1> Learning Walk Summary for <%= lastmonth %></h1>
+<br>
+<h2><%= observation.count %> total learning walks conducted in <%= lastmonth %>.</h2>
+<br>
+<br>
+<table border="2">
+  <tr>
+    <td>Math</td>
+    <td>Reading</td>
+    <td>Science</td>
+    <td>Social Studies</td>
+    <td>Other</td>
+    <td>None Indicated</td>
+  </tr>
+
+  <tr>
+    <td><%= math %></td>
+    <td><%= reading %></td>
+    <td><%= science %></td>
+    <td><%= social %></td>
+    <td><%= other %></td>
+    <td><%= none %></td>
+   </tr>
+</table>
+

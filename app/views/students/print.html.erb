@@ -1,0 +1,85 @@
+<% if current_teacher.campus == @teacher.campus %>
+<h1> <%= @teacher.last_name %> Students</h1>
+
+<h2>All Students - <%= @teacher.students.count%> </h2>
+
+<table class="table table-hover table-condensed table-bordered">
+  <tr>
+    <th>Student Name</th>
+    <th>Math Bubble</th>
+    <th>Missed Math AYP</th>
+    <th>Reading Bubble</th>
+    <th>Missed Reading AYP</th>
+    <th>Reading NCE</th>
+    <th>Reading Raw</th>
+    <th>Math NCE</th>
+    <th>Math Raw</th>
+    <th>Observations</th>
+
+  </tr>
+
+<% @teacher.students.each do |student| %>
+  <tr>
+    
+    
+    <td><%= student.last_name %>, <%= student.first_name %></td>
+    
+    
+    <td><% if student.bubble_math == true %>
+        <%= image_tag("check_mark.jpg", :size => "16x10") %>
+        <% else %>
+        <% end %></td>
+    
+ <td><% if student.met_math_ayp == false %>
+        <%= image_tag("check_mark.jpg", :size => "16x10") %>
+        <% else %>
+        <% end %></td> 
+
+
+    <td><% if student.bubble_reading == true %>
+        <%= image_tag("check_mark.jpg", :size => "16x10") %>
+        <% else %>
+        <% end %></td>
+<td><% if student.met_reading_ayp == false %>
+        <%= image_tag("check_mark.jpg", :size => "16x10") %>
+        <% else %>
+        <% end %></td>  
+    <td><%= student.reading_nce %></td>
+    <td><%= student.reading_staar_scale %></td>
+    <td><%= student.math_nce %></td>
+    <td><%= student.math_staar_scale %></td>
+    
+    <td>
+        <table class = "table table-hover">
+        <tr>
+            <td colspan = "2">Total - <%= student.observations.count%></td>
+        </tr>
+       <tr> 
+            <td><%= image_tag("smile.jpg", :size => "16x10") %></td>
+            <td><%= image_tag("sad.png", :size => "10x10") %><br/></td> 
+        </tr>
+        <tr> 
+            <td align = "center"><%= Observation.where("student_id =? AND off_task = ?", student, true).count %></td>
+            <td align = "center"><%= Observation.where("student_id =? AND off_task = ?", student, false).count %></td> 
+        </tr>
+        </table>
+    </td>
+  </tr>
+<% end %>
+  <tr>
+    <th></th> 
+    <th></th>
+    <th></th>
+    <th><%= Student.where("teacher_id = ? AND bubble_math = ?", @teacher, true).count %></th>
+    <th><%= @ayp_math.count%></th>
+    <th><%= Student.where("teacher_id = ? AND bubble_reading = ?", @teacher, true).count %></th>
+    <th><%= @ayp_reading.count%></th>
+  </tr>
+
+</table>
+
+<br />
+<% else %>
+<h4>What are you doing Dave?  You are not authorized to view this.</h4>
+<% end %>
+

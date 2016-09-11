@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  observer: MyString
+  subject: MyString
+  highlights: MyString
+  growths: MyString
+  teacher: 
+
+two:
+  observer: MyString
+  subject: MyString
+  highlights: MyString
+  growths: MyString
+  teacher: 

@@ -1,0 +1,55 @@
+
+<h1>Learning Walks for <%= current_teacher.full_name %></h1>
+
+<% if current_teacher.admin? %>
+<table class="table table-hover table-condensed table-bordered">
+  <tr>
+    <th>Date</th>
+    <th>Time</th>    
+    <th>Teacher</th>
+    <th>Subject</th>
+    <th>Highlights</th>
+    <th>Growths</th>
+  </tr>
+
+
+<% @learningwalk.all.each do |learningwalk| %>
+  <tr>
+    <td><%= link_to learningwalk.created_at.strftime("%m/%d/%Y"), teacher_learningwalks_path(learningwalk.teacher_id) %></td>
+    <td><%= learningwalk.start_time.strftime("%I:%M %p") %> - <%= learningwalk.created_at.strftime("%I:%M %p") %></td>
+    <td><%= learningwalk.teacher.full_name %></td>
+    <td><%= learningwalk.subject %></td>
+    <td><%= learningwalk.highlights.gsub(/\n/, '<br/>').html_safe %></td>
+    <td><%= learningwalk.growths.gsub(/\n/, '<br/>').html_safe %></td>
+    
+  </tr>
+<% end %>
+</table>
+<% else %>
+
+<table class="table table-hover table-condensed table-bordered">
+  <tr>
+    <th>Date</th>
+    <th>Time</th>    
+    <th>Teacher</th>
+    <th>Subject</th>
+    <th>Highlights</th>
+    <th>Growths</th>
+  </tr>
+
+
+<% @teacher_learningwalk.all.each do |learningwalk| %>
+  <tr>
+    <td><%= link_to learningwalk.created_at.strftime("%m/%d/%Y"), teacher_learningwalks_path(learningwalk.teacher_id) %></td>
+    <td><%= learningwalk.start_time.strftime("%I:%M %p") %> - <%= learningwalk.created_at.strftime("%I:%M %p") %></td>
+    <td><%= learningwalk.teacher.full_name %></td>
+    <td><%= learningwalk.subject %></td>
+    <td><%= learningwalk.highlights.gsub(/\n/, '<br/>').html_safe %></td>
+    <td><%= learningwalk.growths.gsub(/\n/, '<br/>').html_safe %></td>
+    
+  </tr>
+<% end %>
+</table>
+
+<% end %>
+</div>

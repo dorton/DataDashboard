@@ -1,0 +1,318 @@
+<% if current_teacher.campus == @teacher.campus %>
+
+<h1> <%= @teacher.last_name %> Students</h1>
+
+<h2>All Students - <%= @students.count%> </h2>
+
+<div class="row-fluid">
+<td><%= link_to "EVAAS Danger", ayp_teacher_students_path(@teacher), :class=>"btn btn-danger btn-large" %></td>
+<td><%= link_to "Bubble Students", bubble_teacher_students_path(@teacher), :class=>"btn btn-warning btn-large" %></td>
+<td><%= link_to "Learning Walk", teacher_learningwalks_path(@teacher), :class=>"btn btn-success btn-large", :target => "_blank" %></td>
+
+
+</div>
+
+<p>
+    Download:
+    <%= link_to "Excel", teacher_students_path(format: "xls") %> |
+    <%= link_to "CSV", teacher_students_path(format: "csv") %> |
+    <%= link_to "Print", print_teacher_students_path, :target => "_blank" %>
+
+</p>
+
+<!-- ************************ 5th Grade ************************ -->
+
+<% if @fifth %>
+
+<table class="table table-hover table-condensed table-bordered">
+  <tr>
+    <th></th>
+    <th>Math Bubble</th>
+    <th>EVAAS Math Danger</th>
+    <th>Stanford Math Percentile</th>
+    <th>Math Scale</th>
+    <th>Reading Bubble</th>
+    <th>EVAAS Reading Danger</th>
+    <th>Stanford Reading Percentile</th>
+    <th>Reading Scale</th>
+    <th>Observations</th>
+
+</tr>
+
+<% @students.each do |student| %>
+<tr>
+        <td><%= link_to image_tag(student.avatar_url), [student.teacher, student] %> 
+        <br><h5><%= student.first_name %> <%= student.last_name %></h5>
+
+
+<% if student.sped == true %>
+        <h5 class="text-error">Special Education</h5>
+        <% else %>
+        <% end %>
+    </td>
+    
+    <td><% if student.bubble_math == true %>
+        <%= link_to image_tag("check_mark.jpg", :size => "16x10") %>
+        <% else %>
+        <% end %></td>
+        
+        <td><% if student.met_math_ayp == false %>
+            <%= image_tag("check_mark.jpg", :size => "16x10") %>
+            <% else %>
+            <% end %></td> 
+            <td><h4><%= student.math_nce %></h4></td>
+            <% if student.met_math_standard == false %>
+            <td><h4 class="text-error"><%= student.math_staar_scale %></h4></td>
+            <% elsif student.met_math_standard == true %>
+            <td><h4 class="text-success"><%= student.math_staar_scale %></h4></td>
+            <% elsif student.met_math_standard == nil %>
+            <td><h4 class="text-warning"><%= student.math_staar_scale %> </h4></td>
+            <% end %>
+
+            <td><% if student.bubble_reading == true %>
+                <%= image_tag("check_mark.jpg", :size => "16x10") %>
+                <% else %>
+                <% end %></td>
+                <td><% if student.met_reading_ayp == false %>
+                    <%= image_tag("check_mark.jpg", :size => "16x10") %>
+                    <% else %>
+                    <% end %></td>  
+                    <td><h4><%= student.reading_nce %></h4></td>
+                    
+                    <% if student.met_reading_standard == false %>
+                    <td><h4 class="text-error"><%= student.reading_staar_scale %></h4></td>
+                    <% elsif student.met_reading_standard == true %>
+                    <td><h4 class="text-success"><%= student.reading_staar_scale %></h4></td>
+                    <% elsif student.met_reading_standard == nil %>
+                    <td><h4 class="text-warning"><%= student.reading_staar_scale %></h4></td>
+                    <% end %>
+                    
+                    <td>
+                        <table class = "table table-hover">
+                            <tr>
+                                <td colspan = "2">Total - <%= student.observations.count%></td>
+                            </tr>
+                            <tr> 
+                                <td><%= link_to image_tag("smile.jpg", :size => "40x40"), [student.teacher, student] %></td>
+                                <td><%= link_to image_tag("sad.png", :size => "25x25"), [student.teacher, student] %><br/></td> 
+                            </tr>
+                            <tr> 
+                                <td align = "center"><%= link_to Observation.where("student_id =? AND off_task = ?", student, true).count, [student.teacher, student] %></td>
+                                <td align = "center"><%= link_to Observation.where("student_id =? AND off_task = ?", student, false).count, [student.teacher, student] %></td> 
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <% end %>
+
+
+            </table>
+
+<!-- ************************ 4th Grade ************************ --> 
+
+<% elsif @fourth %>
+
+<table class="table table-hover table-condensed table-bordered">
+  <tr>
+    <th></th>
+    <th>Math Bubble</th>
+    <th>EVAAS Math Danger</th>
+    <th>Stanford Math Percentile</th>
+    <th>Math Scale</th>
+    <th>Reading Bubble</th>
+    <th>EVAAS Reading Danger</th>
+    <th>Stanford Reading Percentile</th>
+    <th>Reading Scale</th>
+    <th>Observations</th>
+
+</tr>
+
+<% @students.each do |student| %>
+<tr>
+    
+    <td><%= link_to image_tag(student.avatar_url), [student.teacher, student] %> 
+        <br><h5><%= student.first_name %> <%= student.last_name %></h5>
+        <% if student.sped == true %>
+        <h5 class="text-error">Special Education</h5>
+        <% else %>
+        <% end %>
+    </td>
+    
+    <td><% if student.bubble_math == true %>
+        <%= link_to image_tag("check_mark.jpg", :size => "16x10") %>
+        <% else %>
+        <% end %></td>
+        
+        <td><% if student.met_math_ayp == false %>
+            <%= image_tag("check_mark.jpg", :size => "16x10") %>
+            <% else %>
+            <% end %></td> 
+            <td><h4><%= student.math_nce %></h4></td>
+            <% if student.met_math_standard == false %>
+            <td><h4 class="text-error"><%= student.math_staar_scale %></h4></td>
+            <% elsif student.met_math_standard == true %>
+            <td><h4 class="text-success"><%= student.math_staar_scale %></h4></td>
+            <% elsif student.met_math_standard == nil %>
+            <td><h4 class="text-warning"><%= student.math_staar_scale %> </h4></td>
+            <% end %>
+
+            <td><% if student.bubble_reading == true %>
+                <%= image_tag("check_mark.jpg", :size => "16x10") %>
+                <% else %>
+                <% end %></td>
+                <td><% if student.met_reading_ayp == false %>
+                    <%= image_tag("check_mark.jpg", :size => "16x10") %>
+                    <% else %>
+                    <% end %></td>  
+                    <td><h4><%= student.reading_nce %></h4></td>
+                    <% if student.met_reading_standard == false %>
+                    <td><h4 class="text-error"><%= student.reading_staar_scale %></h4></td>
+                    <% elsif student.met_reading_standard == true %>
+                    <td><h4 class="text-success"><%= student.reading_staar_scale %></h4></td>
+                    <% elsif student.met_reading_standard == nil %>
+                    <td><h4 class="text-warning"><%= student.reading_staar_scale %></h4></td>
+                    <% end %>
+
+                    
+                    <td>
+                        <table class = "table table-hover">
+                            <tr>
+                                <td colspan = "2">Total - <%= student.observations.count%></td>
+                            </tr>
+                            <tr> 
+                                <td><%= link_to image_tag("smile.jpg", :size => "40x40"), [student.teacher, student] %></td>
+                                <td><%= link_to image_tag("sad.png", :size => "25x25"), [student.teacher, student] %><br/></td> 
+                            </tr>
+                            <tr> 
+                                <td align = "center"><%= link_to Observation.where("student_id =? AND off_task = ?", student, true).count, [student.teacher, student] %></td>
+                                <td align = "center"><%= link_to Observation.where("student_id =? AND off_task = ?", student, false).count, [student.teacher, student] %></td> 
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <% end %>
+                 <tr>
+                    <th></th> 
+                    <th><%= Student.where("teacher_id = ? AND bubble_math = ?", @teacher, true).count %></th>
+                    <th><%= @ayp_math.count%></th>
+                    <th></th>
+                    <th></th>
+                    <th><%= Student.where("teacher_id = ? AND bubble_reading = ?", @teacher, true).count %></th>
+                    <th><%= @ayp_reading.count%></th>
+                </tr>
+
+
+            </table>
+
+
+<!-- ************************ 3rd Grade ************************ --> 
+
+<% elsif @third %>
+
+<table class="table table-hover table-condensed table-bordered">
+  <tr>
+    <th></th>
+    <th>Math Bubble</th>
+    <th>Stanford Math Percentile</th>
+    <th>Reading Bubble</th>
+    <th>Stanford Reading Percentile</th>
+    <th>Observations</th>
+
+</tr>
+
+<% @teacher.students.each do |student| %>
+<tr>
+    
+    <td><%= link_to image_tag(student.avatar_url), [student.teacher, student] %> 
+        <br><h5><%= student.first_name %> <%= student.last_name %></h5>
+        <% if student.sped == true %>
+        <h5 class="text-error">Special Education</h5>
+        <% else %>
+        <% end %>
+    </td>
+    
+    
+    <td><% if student.bubble_math == true %>
+        <%= link_to image_tag("check_mark.jpg", :size => "16x10") %>
+        <% else %>
+        <% end %></td>
+            <td><h4><%= student.math_nce %></h4></td>
+            <td><% if student.bubble_reading == true %>
+                <%= image_tag("check_mark.jpg", :size => "16x10") %>
+                <% else %>
+                <% end %></td>
+
+                    <td><h4><%= student.reading_nce %></h4></td>
+
+                    
+                    <td>
+                        <table class = "table table-hover">
+                            <tr>
+                                <td colspan = "2">Total - <%= student.observations.count%></td>
+                            </tr>
+                            <tr> 
+                                <td><%= link_to image_tag("smile.jpg", :size => "40x40"), [student.teacher, student] %></td>
+                                <td><%= link_to image_tag("sad.png", :size => "25x25"), [student.teacher, student] %><br/></td> 
+                            </tr>
+                            <tr> 
+                                <td align = "center"><%= link_to Observation.where("student_id =? AND off_task = ?", student, true).count, [student.teacher, student] %></td>
+                                <td align = "center"><%= link_to Observation.where("student_id =? AND off_task = ?", student, false).count, [student.teacher, student] %></td> 
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <% end %>
+               
+
+            </table>
+
+            <% else %>
+<table class="table table-hover table-condensed table-bordered">
+  <tr>
+    <th></th>
+    <th>Observations</th>
+
+</tr>
+
+<% @teacher.students.each do |student| %>
+<tr>
+    
+    <td><%= link_to image_tag(student.avatar_url), [student.teacher, student] %> 
+        <br><h5><%= student.first_name %> <%= student.last_name %></h5>
+        <% if student.sped == true %>
+        <h5 class="text-error">Special Education</h5>
+        <% else %>
+        <% end %>
+    </td>
+    
+    
+   
+
+                    
+                    <td>
+                        <table class = "table table-hover">
+                            <tr>
+                                <td colspan = "2">Total - <%= student.observations.count%></td>
+                            </tr>
+                            <tr> 
+                                <td><%= link_to image_tag("smile.jpg", :size => "40x40"), [student.teacher, student] %></td>
+                                <td><%= link_to image_tag("sad.png", :size => "25x25"), [student.teacher, student] %><br/></td> 
+                            </tr>
+                            <tr> 
+                                <td align = "center"><%= link_to Observation.where("student_id =? AND off_task = ?", student, true).count, [student.teacher, student] %></td>
+                                <td align = "center"><%= link_to Observation.where("student_id =? AND off_task = ?", student, false).count, [student.teacher, student] %></td> 
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <% end %>
+               
+            </table> 
+
+<% end %>
+            <br />
+
+<% else %>
+<h4>What are you doing Dave?  You are not authorized to view this.</h4>
+<% end %>
+

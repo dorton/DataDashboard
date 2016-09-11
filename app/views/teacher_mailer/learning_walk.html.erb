@@ -1,0 +1,23 @@
+<h1>Learning Walk for <%= "#{@teacher.first_name} #{@teacher.last_name}" %></h1>
+<h3><%= @learningwalk.start_time %></h3>
+<p>
+  <b>Observer:</b>
+  <%= @learningwalk.observer %>
+</p>
+
+<p>
+  <b>Subject:</b>
+  <%= @learningwalk.subject %>
+</p>
+<br>
+
+  <h3>Lesson Highlights:</h3>
+  <table border="2">
+  <td><%= @learningwalk.highlights.gsub(/\n/, '<br/>').html_safe %></td>
+</table>
+<br>
+
+  <h3>Growth Opportunities:</h3>
+  <table border="2">
+  <td><%= @learningwalk.growths.gsub(/\n/, '<br/>').html_safe %></td>
+</table>

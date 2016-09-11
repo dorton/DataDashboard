@@ -1,0 +1,8 @@
+<h2>Edit Learning Walk for <%= @teacher.last_name %></h2>
+
+<%= render 'form' %>
+
+<%= link_to 'Show', @teacher_learningwalk %> |
+<%= link_to 'Back', :back %> |
+<td><%= link_to 'Delete', teacher_learningwalk_path(@teacher, @learningwalk), :confirm => 'Are you sure?',
+                                     :method => :delete %></td>

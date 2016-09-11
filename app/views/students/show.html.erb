@@ -1,0 +1,220 @@
+<% if current_teacher.campus == @teacher.campus %>
+
+<div class="row"><p>
+  <div class="span12">
+  <div class="span4">  
+    <%= image_tag(@student.avatar_url) %>
+    <h2><%= @student.first_name %> <%= @student.last_name %> </h2>
+  </p>
+
+  <p>
+    Teacher:
+    <h4><%= @teacher.last_name %></h4>
+  </p>
+
+  <% if @student.sped == true %>
+    <h3 class="text-error">Special Ed</h3>
+    <% else %>
+  <% end %>
+  <br>
+<%= link_to 'Edit', edit_teacher_student_path(@teacher) %> |
+<%= link_to 'Back', teacher_students_path %>
+</div>
+
+<!-- *****************************OBSERVATIONS***************************** -->
+
+<div class="span6">
+
+  <h3>Observations</h3>
+  <% if @observations.count == 0 %>
+
+  <h5><%= @student.first_name %> has not been observed</h5><br>
+
+  <% else %>
+
+  <table class="table table-hover table-condensed">
+    <tr>
+      <th>Observation Date</th>
+      <th>Observer</th>
+      <th>On Task</th>
+      <th>Notes</th>
+    </tr>
+
+    <% @student.observations.each do |observation|%>
+
+    <tr>
+      <td><%= observation.created_at %></td>
+      <td><%= observation.observer %></td>
+      <td><% if observation.off_task == true %>
+       <%= image_tag("smile.jpg", :size => "40x40") %>
+       <% elsif observation.off_task == false %>
+       <%= image_tag("sad.png", :size => "25x25") %>
+       <% else %>
+       <% end %>
+     </td>
+     <td><%= observation.notes %></td>
+     <!--  -->
+     
+   </tr>
+
+   <% end %>
+ </table>
+ <% end %>
+ <%= render 'observations/form' %>
+
+</div>
+</div>
+
+
+<!-- *****************************MATH***************************** -->
+<div class="row">
+
+<div class="span6">
+  <h2>Math</h2>
+
+  <% if @student.met_math_ayp == false %>
+  <h5 class="text-error">-EVAAS Math Danger</h5>
+
+  <% elsif @student.met_math_ayp == nil %>
+  -Did not take Math STAAR last year<br />	
+
+  <% else %>
+
+
+  <% end %>
+
+  <% if @student.bubble_math == false %>
+  
+
+  <% elsif @student.bubble_math == nil %>
+  -Did not take Math STAAR last year<br />
+
+  <% else %>
+  <h5 class="text-warning">-Is in Math bubble</h5>
+
+  <% end %>
+
+  <% if @student.met_math_standard == false %>
+  <h5 class="text-error">Math STAAR Scale Score - <%= @student.math_staar_scale %></h5>
+  <h5 class="text-error">Failed To Meet Standard </h5>
+
+  <% elsif @student.met_math_standard == true %>
+  <h5 class="text-success">Math STAAR Scale Score - <%= @student.math_staar_scale %></h5>
+  <h5 class="text-success">Met Standard</h5>
+
+  <% elsif  @student.met_math_standard == nil && @student.math_staar_scale != nil %>
+  <h5 class="text-warning">Math STAAR Raw Score - <%= @student.math_staar_scale %></h5>
+  
+  <% end %>
+
+<% if @student.teacher.grade > "3"%>
+<!-- <table class="table table-hover table-condensed table-bordered">
+  <tr>
+    <th>Category</th>
+    <th>Percent Correct</th>
+  </tr>
+
+  <tr>
+    <td>Category 1</td>
+    <td><%= @student.math_cat_1 %></td>
+  </tr>
+  <tr>
+    <td>Category 2</td>
+    <td><%= @student.math_cat_2 %></td>
+  </tr>
+  <tr>
+    <td>Category 3</td>
+    <td><%= @student.math_cat_3 %></td>
+  </tr>
+  <tr>
+    <td>Category 4</td>
+    <td><%= @student.math_cat_4 %></td>
+  </tr>
+  <tr>
+    <td>Category 5</td>
+    <td><%= @student.math_cat_5 %></td>
+  </tr>
+</table> -->
+<div id='chartmath'></div>
+<%= render_chart(@math_chart, 'chartmath') %>
+<% end %>
+
+
+<hr>
+  <h3>Stanford Math Percentile - <%= @student.math_nce%></h3>
+</div>
+<!-- *****************************Reading***************************** -->
+<div class="span6">
+  <h2>Reading</h2>
+
+  <% if @student.met_reading_ayp == false %>
+  <h5 class="text-error">-EVAAS Reading Danger</h5>
+
+  <% elsif @student.met_reading_ayp == nil %>
+  -Did not take Reading STAAR last year<br />
+
+  <% else %>
+
+
+  <% end %>
+
+  <% if @student.bubble_reading == false %>
+
+
+  <% elsif @student.bubble_reading == nil %>
+  -Did not take Reading STAAR last year
+
+  <% else %>
+  <h5 class="text-warning">-Is in Reading bubble</h5>
+
+  <% end %>
+  
+  <% if @student.met_reading_standard == false %>
+  <h5 class="text-error">Reading STAAR Scale Score - <%= @student.reading_staar_scale %></h5>
+  <h5 class="text-error">Failed To Meet Standard </h5>
+
+  <% elsif @student.met_reading_standard == true %>
+  <h5 class="text-success">Reading STAAR Scale Score - <%= @student.reading_staar_scale %></h5>
+  <h5 class="text-success">Met Standard</h5>
+
+  <% elsif  @student.met_reading_standard == nil && @student.reading_staar_scale != nil %>
+  <h5 class="text-warning">Reading STAAR Raw Score - <%= @student.reading_staar_scale %></h5>
+  <% else %>
+  
+  <% end %>
+
+<% if @student.teacher.grade > "3" %>
+<!-- <table class="table table-hover table-condensed table-bordered">
+  <tr>
+    <th>Category</th>
+    <th>Percent Correct</th>
+  </tr>
+
+  <tr>
+    <td>Category 1</td>
+    <td><%= @student.elar_cat_1 %></td>
+  </tr>
+  <tr>
+    <td>Category 2</td>
+    <td><%= @student.elar_cat_2 %></td>
+  </tr>
+  <tr>
+    <td>Category 3</td>
+    <td><%= @student.elar_cat_3 %></td>
+  </tr>
+</table> -->
+
+<div id='chartreading'></div>
+<%= render_chart(@reading_chart, 'chartreading') %>
+<% end %>
+<hr>
+<h3>Stanford Reading Percentile - <%= @student.reading_nce%></h3>
+
+</div>
+</div>
+</div>
+<% else %>
+<h4>What are you doing Dave?  You are not authorized to view this.</h4>
+<% end %>
+
+

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  on_task: MyString
+  observer: MyString
+  student: 
+
+two:
+  on_task: MyString
+  observer: MyString
+  student: 

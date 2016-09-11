@@ -1,0 +1,4 @@
+<%= simple_form_for current_teacher, :html => { :class => 'navbar-form pull-right', id: "super_admin_campus_select"}  do |f| %>
+   <%= f.input :campus, label: false, :collection => Teacher.pluck(:campus).uniq, :prompt => "Select Campus", :input_html => {:style => 'width: 150px'} %>
+
+<% end %>

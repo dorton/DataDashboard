@@ -1,0 +1,21 @@
+<h1>Lesson Plans for <%= @teacher.full_name%></h1>
+
+<table>
+  <tr>
+    <th>Lesson Plan</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+</table>
+
+
+<%= simple_form_for @teacher, :html => {:multipart => true} do |f| %>
+
+    <%= f.file_field :lesson_plan %>
+  <%= f.submit "Submit Plan" %>
+<% end %>
+
+
+

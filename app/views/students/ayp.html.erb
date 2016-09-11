@@ -1,0 +1,96 @@
+
+<% if current_teacher.campus == @teacher.campus %>
+
+<h2 align = "center"><%= @teacher.last_name %> Students In Danger of Failing </h2>
+<p><%= link_to "Print", ayp_print_teacher_students_path, :target => "_blank" %></p>
+<div class="row">
+ <div class="span6"> 
+ 
+<!-- **************************Math**************************-->
+
+   <h3>EVAAS Math Danger - <%= @ayp_math.count %></h3>         
+   <table class="table table-hover table-condensed">     
+     <tr>
+       <th></th>
+       <th>Observations</th>
+       <th>Math Stanford</th>
+       <th>Math STAAR</th>
+     </tr>
+     <% @ayp_math.each do |student|%>  
+     <tr>        
+       
+       <td> <%= link_to image_tag(student.avatar_url), [student.teacher, student] %> <br/><h4><%= student.last_name %>, <%= student.first_name %></h4>      
+       </td>
+       
+
+       <td>
+         <table>
+           <tr>
+             <td colspan = "2">Total - <%= student.observations.count%></td>
+           </tr>
+           <tr> 
+             <td><%= link_to image_tag("smile.jpg", :size => "40x40"), [student.teacher, student] %></td>
+             <td><%= link_to image_tag("sad.png", :size => "25x25"), [student.teacher, student] %><br/></td> 
+           </tr>
+           <tr> 
+             <td align = "center"><%= link_to Observation.where("student_id =? AND off_task = ?", student, true).count, [student.teacher, student] %></td>
+             <td align = "center"><%= link_to Observation.where("student_id =? AND off_task = ?", student, false).count, [student.teacher, student] %></td> 
+           </tr>
+         </table></td>
+         <td align = "center"><%= student.math_nce %></td>
+            <% if student.met_math_standard == false %>
+            <td align = "center"><h5 class="text-error"><%= student.math_staar_scale %></h5></td>
+            <% elsif student.met_math_standard == true %>
+            <td align = "center"><h5 class="text-success"><%= student.math_staar_scale %></h5></td>
+            <% elsif student.met_math_standard == nil %>
+            <td align = "center"><h5 class="text-warning"><%= student.math_staar_scale %> (No Score)</h5></td>
+            <% end %>
+       </tr>
+       <% end %>
+     </table></div>
+ 
+<!-- **************************Reading**************************-->
+
+     <div class="span6">
+      <h3>EVAAS Reading Danger - <%= @ayp_reading.count %></h3>          
+      <table class="table table-hover table-condensed">
+        <tr>
+          <th></th>
+          <th>Observations</th> 
+          <th>Reading Stanford</th>
+          <th>Reading STAAR</th>
+        </tr>
+       
+
+        <% @ayp_reading.each do |student|%>
+        <tr>        
+          <td><%= link_to image_tag(student.avatar_url), [student.teacher, student] %> <br/><h4><%= student.last_name %>, <%= student.first_name %></h4></td>
+          <td><table>
+            <tr>
+              <td colspan = "2">Total - <%= student.observations.count%></td>
+            </tr>
+            <tr> 
+              <td><%= link_to image_tag("smile.jpg", :size => "40x40"), [student.teacher, student] %></td>
+              <td><%= link_to image_tag("sad.png", :size => "25x25"), [student.teacher, student] %><br/></td> 
+            </tr>
+            <tr> 
+              <td align = "center"><%= link_to Observation.where("student_id =? AND off_task = ?", student, true).count, [student.teacher, student] %></td>
+              <td align = "center"><%= link_to Observation.where("student_id =? AND off_task = ?", student, false).count, [student.teacher, student] %></td> 
+            </tr>
+          </table>
+          <td align = "center"><%= student.reading_nce %></td>
+           <% if student.met_reading_standard == false %>
+            <td align = "center"><h5 class="text-error"><%= student.reading_staar_scale %></h5></td>
+            <% elsif student.met_reading_standard == true %>
+            <td align = "center"><h5 class="text-success"><%= student.reading_staar_scale %></h5></td>
+            <% elsif student.met_reading_standard == nil %>
+            <td align = "center"><h5 class="text-warning"><%= student.math_staar_scale %> (No Score)</h5></td>
+            <% end %>
+        </td>
+      </tr>
+      <% end %>
+    </table></div></div>
+
+    <% else %>
+<h4>What are you doing Dave?  You are not authorized to view this.</h4>
+<% end %>
